@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TalkLikeMe - Complete User Journey Prototype</title>
+    <title>meSPEAK - Complete User Journey Prototype</title>
     <style>
         * {
             margin: 0;
@@ -309,7 +309,7 @@
             color: #1a73e8;
         }
         
-        /* COMPOSE STYLES (from previous version) */
+        /* COMPOSE STYLES */
         .compose-window {
             background: white;
             margin: 20px;
@@ -581,7 +581,7 @@
             
             <div class="prototype-info">
                 <div style="margin-bottom: 16px;">
-                    <h3 style="color: #1a73e8; margin-bottom: 8px;">🧪 TalkLikeMe Usability Test</h3>
+                    <h3 style="color: #1a73e8; margin-bottom: 8px;">meSPEAK Usability Test</h3>
                     <p><strong>Scenario:</strong> You're a freelance designer. A client just emailed asking about project timeline concerns.</p>
                     <p><strong>Task 1:</strong> Find and click on the email from Sarah Chen to read and reply to it.</p>
                 </div>
@@ -593,11 +593,11 @@
             
             <div class="inbox-container">
                 <div class="sidebar">
-                    <div class="sidebar-item active">📥 Inbox</div>
-                    <div class="sidebar-item">⭐ Starred</div>
-                    <div class="sidebar-item">📨 Sent</div>
-                    <div class="sidebar-item">📋 Drafts</div>
-                    <div class="sidebar-item">🗑️ Trash</div>
+                    <div class="sidebar-item active">Inbox</div>
+                    <div class="sidebar-item">Starred</div>
+                    <div class="sidebar-item">Sent</div>
+                    <div class="sidebar-item">Drafts</div>
+                    <div class="sidebar-item">Trash</div>
                 </div>
                 
                 <div class="inbox-main">
@@ -662,6 +662,197 @@
         </div>
     </div>
 
+    <!-- SCREEN 2: PRIVACY CONSENT -->
+    <div class="screen" id="privacyScreen">
+        <div class="prototype-container">
+            <div class="gmail-header">
+                <div class="gmail-logo">Gmail</div>
+                <div style="color: #5f6368; font-size: 14px;">meSPEAK Extension</div>
+            </div>
+            
+            <div class="step-indicator">
+                Step 2: Review privacy & permissions
+            </div>
+            
+            <div class="privacy-screen">
+                <div class="privacy-icon">🤖</div>
+                <h1>Welcome to meSPEAK</h1>
+                <h2>AI that writes emails in your personal style</h2>
+                
+                <div class="data-flow">
+                    <h3>How meSPEAK Works</h3>
+                    <div class="flow-steps">
+                        <div class="flow-step">Analyze your sent emails</div>
+                        <div class="flow-arrow">→</div>
+                        <div class="flow-step">Learn your writing patterns</div>
+                        <div class="flow-arrow">→</div>
+                        <div class="flow-step">Generate replies in your style</div>
+                    </div>
+                </div>
+                
+                <div class="privacy-features">
+                    <div class="privacy-feature">
+                        <h3>Privacy First</h3>
+                        <p>We only read emails you've already sent. Your incoming emails and personal data remain completely private.</p>
+                    </div>
+                    
+                    <div class="privacy-feature">
+                        <h3>Local Processing</h3>
+                        <p>Analysis happens on your device. Your writing patterns never leave your computer.</p>
+                    </div>
+                    
+                    <div class="privacy-feature">
+                        <h3>You Control Everything</h3>
+                        <p>Delete your data anytime, adjust permissions, or revoke access with one click.</p>
+                    </div>
+                    
+                    <div class="privacy-feature">
+                        <h3>Transparent Process</h3>
+                        <p>See exactly what we learned about your style and how confident we are in each response.</p>
+                    </div>
+                </div>
+                
+                <div class="privacy-buttons">
+                    <button class="btn-primary" id="acceptPrivacy">
+                        Analyze My Writing Style
+                    </button>
+                    <button class="btn-secondary" id="declinePrivacy">
+                        Maybe Later
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCREEN 3: COMPOSE WITH TALKLIKEME -->
+    <div class="screen" id="composeScreen">
+        <div class="prototype-container">
+            <div class="gmail-header">
+                <div class="gmail-logo">Gmail</div>
+                <div style="color: #5f6368; font-size: 14px;">meSPEAK Extension Active</div>
+            </div>
+            
+            <div class="prototype-info">
+                <strong>Task 2:</strong> Use meSPEAK to compose your reply, adjust the tone if needed, then send.
+            </div>
+            
+            <div class="step-indicator" id="composeStepIndicator">
+                Step 3: Compose your reply
+            </div>
+            
+            <div class="compose-window">
+                <div class="compose-header">
+                    Reply to: Sarah Chen
+                </div>
+                
+                <div class="compose-fields">
+                    <div class="field-group">
+                        <input type="text" class="field-input" value="client@techstartup.com" readonly>
+                    </div>
+                    
+                    <div class="field-group">
+                        <input type="text" class="field-input" value="Re: Project Timeline Discussion" readonly>
+                    </div>
+                    
+                    <div class="original-message">
+                        <h4>Original Message:</h4>
+                        <p><strong>From:</strong> Sarah Chen &lt;client@techstartup.com&gt;</p>
+                        <p><strong>Message:</strong> "Hi! Hope you're doing well. We're getting close to our product launch and need to finalize the timeline for the remaining deliverables. Could you send over an updated schedule with realistic deadlines? Also, the team has some concerns about the API integration complexity. Let me know your thoughts. Thanks so much!"</p>
+                    </div>
+                    
+                    <div class="talklikeme-section">
+                        <button class="talklikeme-button" id="talkLikeMeBtn">
+                            TalkLikeMe
+                        </button>
+                        <span style="color: #5f6368; font-size: 12px; margin-left: 12px; font-style: italic;">
+                            Generate response in your writing style
+                        </span>
+                    </div>
+                    
+                    <div class="loading-state" id="loadingState">
+                        <div class="loading-spinner"></div>
+                        <div>Analyzing your writing style...</div>
+                        <div style="font-size: 12px; margin-top: 8px; color: #9aa0a6;">
+                            Learning tone patterns • Matching vocabulary • Crafting response
+                        </div>
+                    </div>
+                    
+                    <div class="confidence-indicator" id="confidenceIndicator">
+                        <strong>Style Confidence:</strong>
+                        <div class="confidence-dots">
+                            <div class="confidence-dot"></div>
+                            <div class="confidence-dot"></div>
+                            <div class="confidence-dot"></div>
+                            <div class="confidence-dot"></div>
+                            <div class="confidence-dot empty"></div>
+                        </div>
+                        <span>4/5 - Matches your professional-friendly tone</span>
+                    </div>
+                    
+                    <div class="response-area" id="responseArea">
+                        <div class="response-placeholder">
+                            Click "TalkLikeMe" to generate your response
+                        </div>
+                        
+                        <div class="ai-response" id="aiResponse">
+                            <p>Hey Sarah!</p>
+                            <p>Great to hear from you - exciting that you're so close to launch! I totally get the timeline pressure.</p>
+                            <p>I'll put together an updated schedule and send it over by tomorrow morning. For the API integration concerns, let's definitely chat about those - I have a few ideas that might simplify the approach without compromising functionality.</p>
+                            <p>Would a quick call this week work to walk through both the timeline and technical questions? Happy to work around your schedule.</p>
+                            <p>Thanks!</p>
+                        </div>
+                    </div>
+                    
+                    <div class="tone-controls" id="toneControls">
+                        <div style="font-weight: 500; margin-bottom: 12px; font-size: 14px;">Fine-tune tone:</div>
+                        
+                        <div class="tone-categories">
+                            <div class="tone-category" data-tone="formal">
+                                <div style="margin-bottom: 4px;">📄</div>
+                                <div>Formal</div>
+                            </div>
+                            <div class="tone-category active" data-tone="professional">
+                                <div style="margin-bottom: 4px;">💼</div>
+                                <div>Professional</div>
+                            </div>
+                            <div class="tone-category" data-tone="friendly">
+                                <div style="margin-bottom: 4px;">😊</div>
+                                <div>Friendly</div>
+                            </div>
+                            <div class="tone-category" data-tone="casual">
+                                <div style="margin-bottom: 4px;">👋</div>
+                                <div>Casual</div>
+                            </div>
+                        </div>
+                        
+                        <div style="margin: 12px 0;">
+                            <div style="display: flex; justify-content: space-between; font-size: 11px; color: #5f6368; margin-bottom: 8px;">
+                                <span>More Direct</span>
+                                <span>More Warm</span>
+                            </div>
+                            <div class="tone-slider" id="toneSlider">
+                                <div class="tone-thumb" id="toneThumb"></div>
+                            </div>
+                        </div>
+                        
+                        <div style="font-size: 12px; color: #5f6368; text-align: center; margin-top: 8px;" id="currentToneLabel">
+                            Current: Professional-Friendly
+                        </div>
+                    </div>
+                    
+                    <div class="action-buttons" id="actionButtons">
+                        <button class="send-button" id="sendButton">Send</button>
+                        <button class="regenerate-button" id="regenerateButton">Regenerate</button>
+                    </div>
+                    
+                    <div class="success-message" id="successMessage">
+                        Email sent successfully! TalkLikeMe saved you ~3 minutes of writing time.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Screen management
         let currentScreen = 1;
@@ -702,7 +893,7 @@
         
         acceptPrivacyBtn.addEventListener('click', function() {
             // Show loading state briefly
-            this.textContent = 'Setting up TalkLikeMe...';
+            this.textContent = 'Setting up meSPEAK...';
             this.style.opacity = '0.7';
             
             setTimeout(() => {
@@ -712,7 +903,7 @@
         });
         
         declinePrivacyBtn.addEventListener('click', function() {
-            alert('Demo ended. In a real app, users would return to Gmail without TalkLikeMe features.');
+            alert('Demo ended. In a real app, users would return to Gmail without meSPEAK features.');
         });
         
         // SCREEN 3: Compose (existing functionality)
@@ -910,7 +1101,7 @@
                 },
                 casual: {
                     base: `
-                        <p>Hey Sarah! 👋</p>
+                        <p>Hey Sarah!</p>
                         <p>So exciting you're almost at launch - that's awesome!</p>
                         <p>I'll whip up that updated timeline and get it to you tomorrow morning, no prob. And yeah, let's totally dig into those API concerns - I've got some ideas that might make things way simpler!</p>
                         <p>Want to hop on a quick call this week? We can knock out both the schedule stuff and the tech questions.</p>
@@ -923,11 +1114,11 @@
                         <p>Thanks!</p>
                     `,
                     warm: `
-                        <p>Hey Sarah! 👋</p>
+                        <p>Hey Sarah!</p>
                         <p>Omg so exciting that you're almost at launch - I'm seriously so happy for you and the team!</p>
                         <p>I'd absolutely love to put together that updated timeline for you - I'll definitely get it over tomorrow morning and make sure everything looks totally doable. And those API integration concerns? I totally get why the team is worried, but I actually have some really cool ideas that might make the whole thing way less complex and more fun to work with!</p>
                         <p>Would you maybe want to hop on a call this week? I'm super flexible and would love to chat through everything - both the timeline stuff and all the technical questions. Whatever timing works best for you!</p>
-                        <p>Can't wait to chat! 😊</p>
+                        <p>Can't wait to chat!</p>
                     `
                 }
             };
@@ -990,14 +1181,14 @@
                     font-weight: 500;
                 `;
                 completionMessage.innerHTML = `
-                    <h3 style="margin-bottom: 12px;">🎉 Test Completed!</h3>
-                    <p>Thank you for testing TalkLikeMe! You successfully:</p>
+                    <h3 style="margin-bottom: 12px;">Test Completed!</h3>
+                    <p>Thank you for testing meSPEAK! You successfully:</p>
                     <ul style="list-style: none; margin: 12px 0; line-height: 1.6;">
-                        <li>✅ Selected an email to reply to</li>
-                        <li>✅ Reviewed privacy permissions</li>
-                        <li>✅ Generated an AI response</li>
-                        <li>✅ Adjusted tone settings</li>
-                        <li>✅ Sent your personalized reply</li>
+                        <li>Selected an email to reply to</li>
+                        <li>Reviewed privacy permissions</li>
+                        <li>Generated an AI response</li>
+                        <li>Adjusted tone settings</li>
+                        <li>Sent your personalized reply</li>
                     </ul>
                     <p style="margin-top: 16px; font-size: 14px; opacity: 0.9;">
                         Please fill out the feedback form to complete the study.
@@ -1011,193 +1202,4 @@
         updateStep(1, 'Select email to reply to');
     </script>
 </body>
-</html><!-- SCREEN 2: PRIVACY CONSENT -->
-    <div class="screen" id="privacyScreen">
-        <div class="prototype-container">
-            <div class="gmail-header">
-                <div class="gmail-logo">Gmail</div>
-                <div style="color: #5f6368; font-size: 14px;">TalkLikeMe Extension</div>
-            </div>
-            
-            <div class="step-indicator">
-                Step 2: Review privacy & permissions
-            </div>
-            
-            <div class="privacy-screen">
-                <div class="privacy-icon">🤖</div>
-                <h1>Welcome to TalkLikeMe</h1>
-                <h2>AI that writes emails in your personal style</h2>
-                
-                <div class="data-flow">
-                    <h3>🔒 How TalkLikeMe Works</h3>
-                    <div class="flow-steps">
-                        <div class="flow-step">Analyze your sent emails</div>
-                        <div class="flow-arrow">→</div>
-                        <div class="flow-step">Learn your writing patterns</div>
-                        <div class="flow-arrow">→</div>
-                        <div class="flow-step">Generate replies in your style</div>
-                    </div>
-                </div>
-                
-                <div class="privacy-features">
-                    <div class="privacy-feature">
-                        <h3>🔐 Privacy First</h3>
-                        <p>We only read emails you've already sent. Your incoming emails and personal data remain completely private.</p>
-                    </div>
-                    
-                    <div class="privacy-feature">
-                        <h3>🏠 Local Processing</h3>
-                        <p>Analysis happens on your device. Your writing patterns never leave your computer.</p>
-                    </div>
-                    
-                    <div class="privacy-feature">
-                        <h3>🎛️ You Control Everything</h3>
-                        <p>Delete your data anytime, adjust permissions, or revoke access with one click.</p>
-                    </div>
-                    
-                    <div class="privacy-feature">
-                        <h3>🔍 Transparent Process</h3>
-                        <p>See exactly what we learned about your style and how confident we are in each response.</p>
-                    </div>
-                </div>
-                
-                <div class="privacy-buttons">
-                    <button class="btn-primary" id="acceptPrivacy">
-                        ✅ Analyze My Writing Style
-                    </button>
-                    <button class="btn-secondary" id="declinePrivacy">
-                        Maybe Later
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- SCREEN 3: COMPOSE WITH TALKLIKEME -->
-    <div class="screen" id="composeScreen">
-        <div class="prototype-container">
-            <div class="gmail-header">
-                <div class="gmail-logo">Gmail</div>
-                <div style="color: #5f6368; font-size: 14px;">TalkLikeMe Extension Active</div>
-            </div>
-            
-            <div class="prototype-info">
-                <strong>Task 2:</strong> Use TalkLikeMe to compose your reply, adjust the tone if needed, then send.
-            </div>
-            
-            <div class="step-indicator" id="composeStepIndicator">
-                Step 3: Compose your reply
-            </div>
-            
-            <div class="compose-window">
-                <div class="compose-header">
-                    Reply to: Sarah Chen
-                </div>
-                
-                <div class="compose-fields">
-                    <div class="field-group">
-                        <input type="text" class="field-input" value="client@techstartup.com" readonly>
-                    </div>
-                    
-                    <div class="field-group">
-                        <input type="text" class="field-input" value="Re: Project Timeline Discussion" readonly>
-                    </div>
-                    
-                    <div class="original-message">
-                        <h4>📧 Original Message:</h4>
-                        <p><strong>From:</strong> Sarah Chen &lt;client@techstartup.com&gt;</p>
-                        <p><strong>Message:</strong> "Hi! Hope you're doing well. We're getting close to our product launch and need to finalize the timeline for the remaining deliverables. Could you send over an updated schedule with realistic deadlines? Also, the team has some concerns about the API integration complexity. Let me know your thoughts. Thanks so much!"</p>
-                    </div>
-                    
-                    <div class="talklikeme-section">
-                        <button class="talklikeme-button" id="talkLikeMeBtn">
-                            🤖 TalkLikeMe
-                        </button>
-                        <span style="color: #5f6368; font-size: 12px; margin-left: 12px; font-style: italic;">
-                            Generate response in your writing style
-                        </span>
-                    </div>
-                    
-                    <div class="loading-state" id="loadingState">
-                        <div class="loading-spinner"></div>
-                        <div>Analyzing your writing style...</div>
-                        <div style="font-size: 12px; margin-top: 8px; color: #9aa0a6;">
-                            Learning tone patterns • Matching vocabulary • Crafting response
-                        </div>
-                    </div>
-                    
-                    <div class="confidence-indicator" id="confidenceIndicator">
-                        <strong>Style Confidence:</strong>
-                        <div class="confidence-dots">
-                            <div class="confidence-dot"></div>
-                            <div class="confidence-dot"></div>
-                            <div class="confidence-dot"></div>
-                            <div class="confidence-dot"></div>
-                            <div class="confidence-dot empty"></div>
-                        </div>
-                        <span>4/5 - Matches your professional-friendly tone</span>
-                    </div>
-                    
-                    <div class="response-area" id="responseArea">
-                        <div class="response-placeholder">
-                            Click "TalkLikeMe" to generate your response
-                        </div>
-                        
-                        <div class="ai-response" id="aiResponse">
-                            <p>Hey Sarah!</p>
-                            <p>Great to hear from you - exciting that you're so close to launch! I totally get the timeline pressure.</p>
-                            <p>I'll put together an updated schedule and send it over by tomorrow morning. For the API integration concerns, let's definitely chat about those - I have a few ideas that might simplify the approach without compromising functionality.</p>
-                            <p>Would a quick call this week work to walk through both the timeline and technical questions? Happy to work around your schedule.</p>
-                            <p>Thanks!</p>
-                        </div>
-                    </div>
-                    
-                    <div class="tone-controls" id="toneControls">
-                        <div style="font-weight: 500; margin-bottom: 12px; font-size: 14px;">Fine-tune tone:</div>
-                        
-                        <div class="tone-categories">
-                            <div class="tone-category" data-tone="formal">
-                                <div style="margin-bottom: 4px;">📄</div>
-                                <div>Formal</div>
-                            </div>
-                            <div class="tone-category active" data-tone="professional">
-                                <div style="margin-bottom: 4px;">💼</div>
-                                <div>Professional</div>
-                            </div>
-                            <div class="tone-category" data-tone="friendly">
-                                <div style="margin-bottom: 4px;">😊</div>
-                                <div>Friendly</div>
-                            </div>
-                            <div class="tone-category" data-tone="casual">
-                                <div style="margin-bottom: 4px;">👋</div>
-                                <div>Casual</div>
-                            </div>
-                        </div>
-                        
-                        <div style="margin: 12px 0;">
-                            <div style="display: flex; justify-content: space-between; font-size: 11px; color: #5f6368; margin-bottom: 8px;">
-                                <span>More Direct</span>
-                                <span>More Warm</span>
-                            </div>
-                            <div class="tone-slider" id="toneSlider">
-                                <div class="tone-thumb" id="toneThumb"></div>
-                            </div>
-                        </div>
-                        
-                        <div style="font-size: 12px; color: #5f6368; text-align: center; margin-top: 8px;" id="currentToneLabel">
-                            Current: Professional-Friendly
-                        </div>
-                    </div>
-                    
-                    <div class="action-buttons" id="actionButtons">
-                        <button class="send-button" id="sendButton">Send</button>
-                        <button class="regenerate-button" id="regenerateButton">Regenerate</button>
-                    </div>
-                    
-                    <div class="success-message" id="successMessage">
-                        ✅ Email sent successfully! TalkLikeMe saved you ~3 minutes of writing time.
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+</html>
