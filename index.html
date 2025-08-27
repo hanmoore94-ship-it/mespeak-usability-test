@@ -1,0 +1,1203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TalkLikeMe - Complete User Journey Prototype</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Google Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8f9fa;
+            color: #202124;
+        }
+        
+        .prototype-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            min-height: 100vh;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .screen {
+            display: none;
+            min-height: 100vh;
+        }
+        
+        .screen.active {
+            display: block;
+        }
+        
+        .gmail-header {
+            background: #f8f9fa;
+            padding: 12px 20px;
+            border-bottom: 1px solid #dadce0;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .gmail-logo {
+            font-weight: 500;
+            font-size: 22px;
+            color: #ea4335;
+        }
+        
+        .prototype-info {
+            background: #f0f7ff;
+            border: 1px solid #1a73e8;
+            color: #1a73e8;
+            padding: 16px;
+            margin: 20px;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        
+        .step-indicator {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 12px 16px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            font-size: 12px;
+            color: #5f6368;
+            z-index: 1000;
+        }
+        
+        /* GMAIL INBOX STYLES */
+        .inbox-container {
+            display: flex;
+            min-height: calc(100vh - 60px);
+        }
+        
+        .sidebar {
+            width: 250px;
+            background: #fafafa;
+            border-right: 1px solid #dadce0;
+            padding: 20px;
+        }
+        
+        .sidebar-item {
+            padding: 8px 12px;
+            border-radius: 4px;
+            margin: 2px 0;
+            cursor: pointer;
+            font-size: 14px;
+            color: #5f6368;
+        }
+        
+        .sidebar-item.active {
+            background: #fce8e6;
+            color: #d93025;
+            font-weight: 500;
+        }
+        
+        .inbox-main {
+            flex: 1;
+            padding: 20px;
+        }
+        
+        .inbox-toolbar {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid #dadce0;
+            margin-bottom: 20px;
+        }
+        
+        .email-list {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(60,64,67,0.3);
+        }
+        
+        .email-item {
+            padding: 16px 20px;
+            border-bottom: 1px solid #f0f0f0;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .email-item:hover {
+            background: #f8f9fa;
+        }
+        
+        .email-item.unread {
+            background: #ffffff;
+            font-weight: 500;
+        }
+        
+        .email-item.important {
+            border-left: 4px solid #fbbc04;
+        }
+        
+        .email-checkbox {
+            width: 20px;
+            height: 20px;
+        }
+        
+        .email-content {
+            flex: 1;
+        }
+        
+        .email-sender {
+            font-size: 14px;
+            color: #202124;
+            margin-bottom: 4px;
+        }
+        
+        .email-subject {
+            font-size: 14px;
+            color: #5f6368;
+            margin-bottom: 4px;
+        }
+        
+        .email-preview {
+            font-size: 13px;
+            color: #9aa0a6;
+        }
+        
+        .email-time {
+            font-size: 12px;
+            color: #9aa0a6;
+            min-width: 60px;
+            text-align: right;
+        }
+        
+        /* PRIVACY SCREEN STYLES */
+        .privacy-screen {
+            padding: 40px;
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .privacy-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            color: white;
+            margin: 0 auto 30px;
+        }
+        
+        .privacy-screen h1 {
+            font-size: 32px;
+            color: #202124;
+            margin-bottom: 16px;
+        }
+        
+        .privacy-screen h2 {
+            font-size: 18px;
+            color: #5f6368;
+            margin-bottom: 30px;
+            font-weight: 400;
+        }
+        
+        .privacy-features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin: 30px 0;
+            text-align: left;
+        }
+        
+        .privacy-feature {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .privacy-feature h3 {
+            color: #202124;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+        
+        .privacy-feature p {
+            color: #5f6368;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        
+        .privacy-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            margin-top: 40px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 24px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-secondary {
+            background: white;
+            color: #5f6368;
+            border: 1px solid #dadce0;
+            padding: 14px 32px;
+            border-radius: 24px;
+            font-weight: 500;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        .data-flow {
+            background: #f0f7ff;
+            border-radius: 12px;
+            padding: 24px;
+            margin: 30px 0;
+            text-align: left;
+        }
+        
+        .data-flow h3 {
+            color: #1a73e8;
+            margin-bottom: 16px;
+        }
+        
+        .flow-steps {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        
+        .flow-step {
+            background: white;
+            padding: 12px 16px;
+            border-radius: 20px;
+            border: 1px solid #dadce0;
+            font-size: 12px;
+            color: #5f6368;
+            font-weight: 500;
+        }
+        
+        .flow-arrow {
+            font-size: 18px;
+            color: #1a73e8;
+        }
+        
+        /* COMPOSE STYLES (from previous version) */
+        .compose-window {
+            background: white;
+            margin: 20px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(60,64,67,0.3);
+            overflow: hidden;
+        }
+        
+        .compose-header {
+            background: #f8f9fa;
+            padding: 16px 20px;
+            border-bottom: 1px solid #dadce0;
+            font-weight: 500;
+            color: #3c4043;
+        }
+        
+        .compose-fields {
+            padding: 20px;
+        }
+        
+        .field-group {
+            margin-bottom: 12px;
+        }
+        
+        .field-input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #dadce0;
+            border-radius: 4px;
+            font-size: 14px;
+            background: white;
+        }
+        
+        .original-message {
+            background: #f8f9ff;
+            border: 2px dashed #667eea;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px 0;
+        }
+        
+        .original-message h4 {
+            color: #667eea;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        .talklikeme-section {
+            background: #f8f9ff;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px 0;
+            border-left: 4px solid #667eea;
+        }
+        
+        .talklikeme-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+        }
+        
+        .talklikeme-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        
+        .response-area {
+            margin: 16px 0;
+            border: 2px solid #e8eaed;
+            border-radius: 8px;
+            min-height: 120px;
+            background: white;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .response-placeholder {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #9aa0a6;
+            font-style: italic;
+            text-align: center;
+        }
+        
+        .ai-response {
+            padding: 16px;
+            font-size: 14px;
+            line-height: 1.5;
+            display: none;
+        }
+        
+        .confidence-indicator {
+            display: none;
+            background: #e8f5e8;
+            border: 1px solid #c8e6c9;
+            border-radius: 6px;
+            padding: 12px;
+            margin: 12px 0;
+            font-size: 13px;
+        }
+        
+        .confidence-dots {
+            display: inline-flex;
+            gap: 4px;
+            margin: 0 8px;
+        }
+        
+        .confidence-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #4caf50;
+        }
+        
+        .confidence-dot.empty {
+            background: #e0e0e0;
+        }
+        
+        .tone-controls {
+            display: none;
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px 0;
+        }
+        
+        .tone-categories {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+        
+        .tone-category {
+            text-align: center;
+            flex: 1;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+            color: #5f6368;
+            margin: 0 2px;
+            transition: all 0.2s ease;
+        }
+        
+        .tone-category.active {
+            background: #e8f0fe;
+            color: #1a73e8;
+            border: 1px solid #1a73e8;
+        }
+        
+        .tone-slider {
+            width: 100%;
+            height: 6px;
+            background: #e0e0e0;
+            border-radius: 3px;
+            position: relative;
+            cursor: pointer;
+            margin: 10px 0;
+        }
+        
+        .tone-thumb {
+            width: 20px;
+            height: 20px;
+            background: #667eea;
+            border-radius: 50%;
+            position: absolute;
+            top: -7px;
+            left: 50%;
+            cursor: grab;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .action-buttons {
+            display: none;
+            gap: 12px;
+            margin-top: 20px;
+        }
+        
+        .send-button {
+            background: #1a73e8;
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 4px;
+            font-weight: 500;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .regenerate-button {
+            background: #f8f9fa;
+            color: #3c4043;
+            border: 1px solid #dadce0;
+            padding: 10px 24px;
+            border-radius: 4px;
+            font-weight: 500;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .loading-state {
+            display: none;
+            text-align: center;
+            padding: 40px;
+            color: #5f6368;
+        }
+        
+        .loading-spinner {
+            width: 24px;
+            height: 24px;
+            border: 2px solid #e0e0e0;
+            border-top: 2px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 16px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .success-message {
+            display: none;
+            background: #e8f5e8;
+            border: 1px solid #c8e6c9;
+            color: #2e7d32;
+            padding: 12px;
+            border-radius: 6px;
+            margin: 16px 0;
+            text-align: center;
+            font-weight: 500;
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        .show {
+            display: block !important;
+        }
+        
+        .show-flex {
+            display: flex !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- SCREEN 1: GMAIL INBOX -->
+    <div class="screen active" id="inboxScreen">
+        <div class="prototype-container">
+            <div class="gmail-header">
+                <div class="gmail-logo">Gmail</div>
+                <div style="color: #5f6368; font-size: 14px;">sarah.designer@gmail.com</div>
+            </div>
+            
+            <div class="prototype-info">
+                <div style="margin-bottom: 16px;">
+                    <h3 style="color: #1a73e8; margin-bottom: 8px;">🧪 TalkLikeMe Usability Test</h3>
+                    <p><strong>Scenario:</strong> You're a freelance designer. A client just emailed asking about project timeline concerns.</p>
+                    <p><strong>Task 1:</strong> Find and click on the email from Sarah Chen to read and reply to it.</p>
+                </div>
+            </div>
+            
+            <div class="step-indicator" id="stepIndicator">
+                Step 1: Select email to reply to
+            </div>
+            
+            <div class="inbox-container">
+                <div class="sidebar">
+                    <div class="sidebar-item active">📥 Inbox</div>
+                    <div class="sidebar-item">⭐ Starred</div>
+                    <div class="sidebar-item">📨 Sent</div>
+                    <div class="sidebar-item">📋 Drafts</div>
+                    <div class="sidebar-item">🗑️ Trash</div>
+                </div>
+                
+                <div class="inbox-main">
+                    <div class="inbox-toolbar">
+                        <input type="checkbox" style="margin-right: 12px;">
+                        <span style="font-size: 14px; color: #5f6368;">7 conversations</span>
+                    </div>
+                    
+                    <div class="email-list">
+                        <div class="email-item important unread" id="clientEmail" style="cursor: pointer;">
+                            <input type="checkbox" class="email-checkbox">
+                            <div class="email-content">
+                                <div class="email-sender">Sarah Chen &lt;client@techstartup.com&gt;</div>
+                                <div class="email-subject">Project Timeline Discussion - Need Update</div>
+                                <div class="email-preview">Hi! Hope you're doing well. We're getting close to our product launch and need to finalize the timeline...</div>
+                            </div>
+                            <div class="email-time">2:34 PM</div>
+                        </div>
+                        
+                        <div class="email-item">
+                            <input type="checkbox" class="email-checkbox">
+                            <div class="email-content">
+                                <div class="email-sender">Marketing Team &lt;team@company.com&gt;</div>
+                                <div class="email-subject">Weekly Newsletter - Design Updates</div>
+                                <div class="email-preview">Here's this week's roundup of design team progress and upcoming milestones...</div>
+                            </div>
+                            <div class="email-time">11:15 AM</div>
+                        </div>
+                        
+                        <div class="email-item">
+                            <input type="checkbox" class="email-checkbox">
+                            <div class="email-content">
+                                <div class="email-sender">GitHub &lt;noreply@github.com&gt;</div>
+                                <div class="email-subject">[Portfolio-Site] Pull request merged</div>
+                                <div class="email-preview">Your pull request #47 has been successfully merged into main branch...</div>
+                            </div>
+                            <div class="email-time">Yesterday</div>
+                        </div>
+                        
+                        <div class="email-item">
+                            <input type="checkbox" class="email-checkbox">
+                            <div class="email-content">
+                                <div class="email-sender">LinkedIn &lt;notifications@linkedin.com&gt;</div>
+                                <div class="email-subject">You have 3 new messages</div>
+                                <div class="email-preview">Connect with recruiters and grow your professional network...</div>
+                            </div>
+                            <div class="email-time">Yesterday</div>
+                        </div>
+                        
+                        <div class="email-item">
+                            <input type="checkbox" class="email-checkbox">
+                            <div class="email-content">
+                                <div class="email-sender">Alex Martinez &lt;alex@designstudio.com&gt;</div>
+                                <div class="email-subject">Collaboration Opportunity</div>
+                                <div class="email-preview">I came across your portfolio and would love to discuss a potential collaboration...</div>
+                            </div>
+                            <div class="email-time">2 days ago</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Screen management
+        let currentScreen = 1;
+        const screens = document.querySelectorAll('.screen');
+        const stepIndicator = document.getElementById('stepIndicator');
+        const composeStepIndicator = document.getElementById('composeStepIndicator');
+        
+        function showScreen(screenId) {
+            screens.forEach(screen => screen.classList.remove('active'));
+            document.getElementById(screenId).classList.add('active');
+        }
+        
+        function updateStep(step, message) {
+            currentScreen = step;
+            const indicator = step >= 3 ? composeStepIndicator : stepIndicator;
+            if (indicator) {
+                indicator.textContent = `Step ${step}: ${message}`;
+            }
+        }
+        
+        // SCREEN 1: Gmail Inbox
+        const clientEmail = document.getElementById('clientEmail');
+        clientEmail.addEventListener('click', function() {
+            // Highlight the clicked email
+            this.style.background = '#e8f0fe';
+            this.style.borderLeft = '4px solid #1a73e8';
+            
+            // Show transition effect
+            setTimeout(() => {
+                showScreen('privacyScreen');
+                updateStep(2, 'Review privacy & permissions');
+            }, 800);
+        });
+        
+        // SCREEN 2: Privacy Screen
+        const acceptPrivacyBtn = document.getElementById('acceptPrivacy');
+        const declinePrivacyBtn = document.getElementById('declinePrivacy');
+        
+        acceptPrivacyBtn.addEventListener('click', function() {
+            // Show loading state briefly
+            this.textContent = 'Setting up TalkLikeMe...';
+            this.style.opacity = '0.7';
+            
+            setTimeout(() => {
+                showScreen('composeScreen');
+                updateStep(3, 'Compose your reply');
+            }, 2000);
+        });
+        
+        declinePrivacyBtn.addEventListener('click', function() {
+            alert('Demo ended. In a real app, users would return to Gmail without TalkLikeMe features.');
+        });
+        
+        // SCREEN 3: Compose (existing functionality)
+        const talkLikeMeBtn = document.getElementById('talkLikeMeBtn');
+        const loadingState = document.getElementById('loadingState');
+        const confidenceIndicator = document.getElementById('confidenceIndicator');
+        const responseArea = document.getElementById('responseArea');
+        const aiResponse = document.getElementById('aiResponse');
+        const toneControls = document.getElementById('toneControls');
+        const actionButtons = document.getElementById('actionButtons');
+        const sendButton = document.getElementById('sendButton');
+        const regenerateButton = document.getElementById('regenerateButton');
+        const successMessage = document.getElementById('successMessage');
+        const toneSlider = document.getElementById('toneSlider');
+        const toneThumb = document.getElementById('toneThumb');
+        
+        // Tone category and slider interaction
+        let isDragging = false;
+        let currentTone = 'professional';
+        
+        talkLikeMeBtn.addEventListener('click', function() {
+            // Step 4: Show loading
+            updateStep(4, 'AI generating response...');
+            talkLikeMeBtn.style.display = 'none';
+            loadingState.classList.add('show');
+            
+            // Step 5: Show AI response after delay
+            setTimeout(() => {
+                loadingState.classList.remove('show');
+                confidenceIndicator.classList.add('show');
+                aiResponse.classList.add('show');
+                responseArea.querySelector('.response-placeholder').style.display = 'none';
+                responseArea.style.borderColor = '#667eea';
+                updateStep(5, 'Review and customize response');
+                
+                // Step 6: Show tone controls and buttons
+                setTimeout(() => {
+                    toneControls.classList.add('show');
+                    actionButtons.classList.add('show-flex');
+                    updateStep(6, 'Adjust tone or send email');
+                }, 1000);
+            }, 3000);
+        });
+        
+        // Tone category buttons
+        document.querySelectorAll('.tone-category').forEach(category => {
+            category.addEventListener('click', function() {
+                // Remove active class from all categories
+                document.querySelectorAll('.tone-category').forEach(cat => {
+                    cat.classList.remove('active');
+                    cat.style.background = '';
+                    cat.style.color = '#5f6368';
+                    cat.style.border = '';
+                });
+                
+                // Add active class to clicked category
+                this.classList.add('active');
+                this.style.background = '#e8f0fe';
+                this.style.color = '#1a73e8';
+                this.style.border = '1px solid #1a73e8';
+                
+                // Update current tone and response
+                currentTone = this.dataset.tone;
+                updateAIResponse(currentTone);
+                updateCurrentToneLabel();
+                
+                // Reset slider to center for new tone
+                toneThumb.style.left = '50%';
+            });
+        });
+        
+        // Fine-tuning slider
+        toneSlider.addEventListener('mousedown', function(e) {
+            isDragging = true;
+            updateThumbPosition(e);
+        });
+        
+        document.addEventListener('mousemove', function(e) {
+            if (isDragging) {
+                updateThumbPosition(e);
+            }
+        });
+        
+        document.addEventListener('mouseup', function() {
+            isDragging = false;
+        });
+        
+        function updateThumbPosition(e) {
+            const rect = toneSlider.getBoundingClientRect();
+            const percent = Math.max(0, Math.min(100, ((e.clientX - rect.left) / rect.width) * 100));
+            toneThumb.style.left = percent + '%';
+            
+            // Update response based on current tone + slider position
+            updateAIResponseWithSlider(currentTone, percent);
+            updateCurrentToneLabel(percent);
+        }
+        
+        function updateCurrentToneLabel(sliderPercent = 50) {
+            const currentToneLabel = document.getElementById('currentToneLabel');
+            const toneNames = {
+                formal: 'Formal',
+                professional: 'Professional',
+                friendly: 'Friendly', 
+                casual: 'Casual'
+            };
+            
+            let modifier = '';
+            if (sliderPercent < 40) {
+                modifier = ' + Direct';
+            } else if (sliderPercent > 60) {
+                modifier = ' + Warm';
+            }
+            
+            currentToneLabel.textContent = `Current: ${toneNames[currentTone]}${modifier}`;
+        }
+        
+        function updateAIResponseWithSlider(tone, sliderPercent) {
+            // Determine if slider makes it more direct or warm
+            const isMoreDirect = sliderPercent < 40;
+            const isMoreWarm = sliderPercent > 60;
+            
+            updateAIResponse(tone, isMoreDirect, isMoreWarm);
+        }
+        
+        function updateAIResponse(tone, isMoreDirect = false, isMoreWarm = false) {
+            const responses = {
+                formal: {
+                    base: `
+                        <p>Dear Sarah,</p>
+                        <p>Thank you for your message regarding the project timeline and technical considerations.</p>
+                        <p>I will prepare a comprehensive updated schedule and forward it to you by tomorrow morning. Regarding the API integration complexities you mentioned, I would welcome the opportunity to discuss potential solutions that could streamline the implementation process.</p>
+                        <p>Would you be available for a brief consultation this week to address both the timeline requirements and technical specifications?</p>
+                        <p>Best regards,</p>
+                    `,
+                    direct: `
+                        <p>Dear Sarah,</p>
+                        <p>Thank you for your message. I will provide the updated timeline by tomorrow morning.</p>
+                        <p>Regarding the API integration concerns, I recommend we schedule a meeting to address these issues directly and determine the most efficient implementation approach.</p>
+                        <p>Please let me know your availability this week.</p>
+                        <p>Best regards,</p>
+                    `,
+                    warm: `
+                        <p>Dear Sarah,</p>
+                        <p>Thank you so much for reaching out, and congratulations on approaching your product launch milestone.</p>
+                        <p>I would be delighted to prepare a comprehensive updated schedule for you by tomorrow morning. Regarding the API integration complexities, I completely understand the team's concerns and would very much welcome the opportunity to explore solutions together.</p>
+                        <p>Would you be available for a consultation this week? I'm happy to work around your schedule to ensure we address all your questions thoroughly.</p>
+                        <p>With best regards,</p>
+                    `
+                },
+                professional: {
+                    base: `
+                        <p>Hey Sarah!</p>
+                        <p>Great to hear from you - exciting that you're so close to launch! I totally get the timeline pressure.</p>
+                        <p>I'll put together an updated schedule and send it over by tomorrow morning. For the API integration concerns, let's definitely chat about those - I have a few ideas that might simplify the approach without compromising functionality.</p>
+                        <p>Would a quick call this week work to walk through both the timeline and technical questions? Happy to work around your schedule.</p>
+                        <p>Thanks!</p>
+                    `,
+                    direct: `
+                        <p>Hi Sarah,</p>
+                        <p>I'll have the updated timeline ready by tomorrow morning.</p>
+                        <p>For the API integration issues, let's schedule a call this week to review the technical approach and resolve the team's concerns.</p>
+                        <p>Let me know when you're available.</p>
+                        <p>Thanks,</p>
+                    `,
+                    warm: `
+                        <p>Hey Sarah!</p>
+                        <p>So great to hear from you! I'm really excited that you're so close to launch - what an amazing milestone!</p>
+                        <p>I completely understand the timeline pressure you're feeling. I'll put together a detailed updated schedule and get it to you first thing tomorrow morning. For those API integration concerns, I'd love to chat about them - I actually have some ideas that might make things much smoother for the team.</p>
+                        <p>Would you like to hop on a call this week? I'm totally flexible and happy to work around whatever timing works best for you.</p>
+                        <p>Thanks so much!</p>
+                    `
+                },
+                friendly: {
+                    base: `
+                        <p>Hi Sarah!</p>
+                        <p>Thanks for reaching out! Launch time is always exciting and a bit stressful.</p>
+                        <p>I'll get that updated timeline to you by tomorrow morning - want to make sure we're being realistic with the deadlines. On the API integration complexity, I'd love to discuss some ideas I have that might help simplify things.</p>
+                        <p>Free for a quick chat this week? We can go over both the schedule and technical approach.</p>
+                        <p>Talk soon!</p>
+                    `,
+                    direct: `
+                        <p>Hi Sarah,</p>
+                        <p>I'll send the updated timeline tomorrow morning.</p>
+                        <p>Let's discuss the API integration concerns this week. I have some solutions that should address the team's issues.</p>
+                        <p>When can you chat?</p>
+                        <p>Thanks,</p>
+                    `,
+                    warm: `
+                        <p>Hi Sarah!</p>
+                        <p>Thanks so much for reaching out! I know launch time can be both super exciting and a little overwhelming.</p>
+                        <p>I'd be happy to put together that updated timeline for you - I'll make sure to get it over by tomorrow morning with realistic deadlines that work for everyone. And I completely understand the team's concerns about the API integration complexity. I'd really love to chat about some ideas I have that might help make things much smoother!</p>
+                        <p>Would you be free for a quick call this week? I'm really flexible and would love to help however I can.</p>
+                        <p>Looking forward to chatting soon!</p>
+                    `
+                },
+                casual: {
+                    base: `
+                        <p>Hey Sarah! 👋</p>
+                        <p>So exciting you're almost at launch - that's awesome!</p>
+                        <p>I'll whip up that updated timeline and get it to you tomorrow morning, no prob. And yeah, let's totally dig into those API concerns - I've got some ideas that might make things way simpler!</p>
+                        <p>Want to hop on a quick call this week? We can knock out both the schedule stuff and the tech questions.</p>
+                        <p>Talk soon!</p>
+                    `,
+                    direct: `
+                        <p>Hey Sarah,</p>
+                        <p>Timeline update tomorrow morning. Let's call this week about the API issues.</p>
+                        <p>When works for you?</p>
+                        <p>Thanks!</p>
+                    `,
+                    warm: `
+                        <p>Hey Sarah! 👋</p>
+                        <p>Omg so exciting that you're almost at launch - I'm seriously so happy for you and the team!</p>
+                        <p>I'd absolutely love to put together that updated timeline for you - I'll definitely get it over tomorrow morning and make sure everything looks totally doable. And those API integration concerns? I totally get why the team is worried, but I actually have some really cool ideas that might make the whole thing way less complex and more fun to work with!</p>
+                        <p>Would you maybe want to hop on a call this week? I'm super flexible and would love to chat through everything - both the timeline stuff and all the technical questions. Whatever timing works best for you!</p>
+                        <p>Can't wait to chat! 😊</p>
+                    `
+                }
+            };
+            
+            let responseText;
+            if (isMoreDirect) {
+                responseText = responses[tone].direct;
+            } else if (isMoreWarm) {
+                responseText = responses[tone].warm;
+            } else {
+                responseText = responses[tone].base;
+            }
+            
+            aiResponse.innerHTML = responseText;
+        }
+        
+        // Regenerate button
+        regenerateButton.addEventListener('click', function() {
+            const alternatives = [
+                `<p>Hi Sarah,</p>
+                <p>Thanks for checking in! I know launch crunch time can be intense.</p>
+                <p>Let me pull together a realistic timeline update for you - I'll have that ready first thing tomorrow. On the API integration complexity, I think there might be some ways to streamline that process.</p>
+                <p>Could we schedule a brief call to go over both the timeline and technical approach? I'm flexible on timing.</p>
+                <p>Best,</p>`,
+                `<p>Hey there!</p>
+                <p>Hope things are going smoothly on your end despite the launch pressure!</p>
+                <p>I'll get you that updated timeline by tomorrow morning - want to make sure the deadlines are actually doable. As for the API integration worries, I've been thinking about some alternative approaches that might reduce complexity.</p>
+                <p>Free for a quick sync this week to discuss both? Let me know what works for your schedule.</p>
+                <p>Thanks!</p>`
+            ];
+            
+            const randomResponse = alternatives[Math.floor(Math.random() * alternatives.length)];
+            aiResponse.innerHTML = randomResponse;
+            
+            // Briefly show regenerating state
+            aiResponse.style.opacity = '0.5';
+            regenerateButton.textContent = 'Regenerating...';
+            setTimeout(() => {
+                aiResponse.style.opacity = '1';
+                regenerateButton.textContent = 'Regenerate';
+            }, 1000);
+        });
+        
+        // Send button
+        sendButton.addEventListener('click', function() {
+            updateStep(7, 'Email sent successfully!');
+            successMessage.classList.add('show');
+            actionButtons.style.display = 'none';
+            
+            // Add completion message
+            setTimeout(() => {
+                const completionMessage = document.createElement('div');
+                completionMessage.style.cssText = `
+                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    color: white;
+                    padding: 24px;
+                    border-radius: 12px;
+                    margin: 20px;
+                    text-align: center;
+                    font-weight: 500;
+                `;
+                completionMessage.innerHTML = `
+                    <h3 style="margin-bottom: 12px;">🎉 Test Completed!</h3>
+                    <p>Thank you for testing TalkLikeMe! You successfully:</p>
+                    <ul style="list-style: none; margin: 12px 0; line-height: 1.6;">
+                        <li>✅ Selected an email to reply to</li>
+                        <li>✅ Reviewed privacy permissions</li>
+                        <li>✅ Generated an AI response</li>
+                        <li>✅ Adjusted tone settings</li>
+                        <li>✅ Sent your personalized reply</li>
+                    </ul>
+                    <p style="margin-top: 16px; font-size: 14px; opacity: 0.9;">
+                        Please fill out the feedback form to complete the study.
+                    </p>
+                `;
+                document.getElementById('composeScreen').appendChild(completionMessage);
+            }, 2000);
+        });
+        
+        // Initialize with first step
+        updateStep(1, 'Select email to reply to');
+    </script>
+</body>
+</html><!-- SCREEN 2: PRIVACY CONSENT -->
+    <div class="screen" id="privacyScreen">
+        <div class="prototype-container">
+            <div class="gmail-header">
+                <div class="gmail-logo">Gmail</div>
+                <div style="color: #5f6368; font-size: 14px;">TalkLikeMe Extension</div>
+            </div>
+            
+            <div class="step-indicator">
+                Step 2: Review privacy & permissions
+            </div>
+            
+            <div class="privacy-screen">
+                <div class="privacy-icon">🤖</div>
+                <h1>Welcome to TalkLikeMe</h1>
+                <h2>AI that writes emails in your personal style</h2>
+                
+                <div class="data-flow">
+                    <h3>🔒 How TalkLikeMe Works</h3>
+                    <div class="flow-steps">
+                        <div class="flow-step">Analyze your sent emails</div>
+                        <div class="flow-arrow">→</div>
+                        <div class="flow-step">Learn your writing patterns</div>
+                        <div class="flow-arrow">→</div>
+                        <div class="flow-step">Generate replies in your style</div>
+                    </div>
+                </div>
+                
+                <div class="privacy-features">
+                    <div class="privacy-feature">
+                        <h3>🔐 Privacy First</h3>
+                        <p>We only read emails you've already sent. Your incoming emails and personal data remain completely private.</p>
+                    </div>
+                    
+                    <div class="privacy-feature">
+                        <h3>🏠 Local Processing</h3>
+                        <p>Analysis happens on your device. Your writing patterns never leave your computer.</p>
+                    </div>
+                    
+                    <div class="privacy-feature">
+                        <h3>🎛️ You Control Everything</h3>
+                        <p>Delete your data anytime, adjust permissions, or revoke access with one click.</p>
+                    </div>
+                    
+                    <div class="privacy-feature">
+                        <h3>🔍 Transparent Process</h3>
+                        <p>See exactly what we learned about your style and how confident we are in each response.</p>
+                    </div>
+                </div>
+                
+                <div class="privacy-buttons">
+                    <button class="btn-primary" id="acceptPrivacy">
+                        ✅ Analyze My Writing Style
+                    </button>
+                    <button class="btn-secondary" id="declinePrivacy">
+                        Maybe Later
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCREEN 3: COMPOSE WITH TALKLIKEME -->
+    <div class="screen" id="composeScreen">
+        <div class="prototype-container">
+            <div class="gmail-header">
+                <div class="gmail-logo">Gmail</div>
+                <div style="color: #5f6368; font-size: 14px;">TalkLikeMe Extension Active</div>
+            </div>
+            
+            <div class="prototype-info">
+                <strong>Task 2:</strong> Use TalkLikeMe to compose your reply, adjust the tone if needed, then send.
+            </div>
+            
+            <div class="step-indicator" id="composeStepIndicator">
+                Step 3: Compose your reply
+            </div>
+            
+            <div class="compose-window">
+                <div class="compose-header">
+                    Reply to: Sarah Chen
+                </div>
+                
+                <div class="compose-fields">
+                    <div class="field-group">
+                        <input type="text" class="field-input" value="client@techstartup.com" readonly>
+                    </div>
+                    
+                    <div class="field-group">
+                        <input type="text" class="field-input" value="Re: Project Timeline Discussion" readonly>
+                    </div>
+                    
+                    <div class="original-message">
+                        <h4>📧 Original Message:</h4>
+                        <p><strong>From:</strong> Sarah Chen &lt;client@techstartup.com&gt;</p>
+                        <p><strong>Message:</strong> "Hi! Hope you're doing well. We're getting close to our product launch and need to finalize the timeline for the remaining deliverables. Could you send over an updated schedule with realistic deadlines? Also, the team has some concerns about the API integration complexity. Let me know your thoughts. Thanks so much!"</p>
+                    </div>
+                    
+                    <div class="talklikeme-section">
+                        <button class="talklikeme-button" id="talkLikeMeBtn">
+                            🤖 TalkLikeMe
+                        </button>
+                        <span style="color: #5f6368; font-size: 12px; margin-left: 12px; font-style: italic;">
+                            Generate response in your writing style
+                        </span>
+                    </div>
+                    
+                    <div class="loading-state" id="loadingState">
+                        <div class="loading-spinner"></div>
+                        <div>Analyzing your writing style...</div>
+                        <div style="font-size: 12px; margin-top: 8px; color: #9aa0a6;">
+                            Learning tone patterns • Matching vocabulary • Crafting response
+                        </div>
+                    </div>
+                    
+                    <div class="confidence-indicator" id="confidenceIndicator">
+                        <strong>Style Confidence:</strong>
+                        <div class="confidence-dots">
+                            <div class="confidence-dot"></div>
+                            <div class="confidence-dot"></div>
+                            <div class="confidence-dot"></div>
+                            <div class="confidence-dot"></div>
+                            <div class="confidence-dot empty"></div>
+                        </div>
+                        <span>4/5 - Matches your professional-friendly tone</span>
+                    </div>
+                    
+                    <div class="response-area" id="responseArea">
+                        <div class="response-placeholder">
+                            Click "TalkLikeMe" to generate your response
+                        </div>
+                        
+                        <div class="ai-response" id="aiResponse">
+                            <p>Hey Sarah!</p>
+                            <p>Great to hear from you - exciting that you're so close to launch! I totally get the timeline pressure.</p>
+                            <p>I'll put together an updated schedule and send it over by tomorrow morning. For the API integration concerns, let's definitely chat about those - I have a few ideas that might simplify the approach without compromising functionality.</p>
+                            <p>Would a quick call this week work to walk through both the timeline and technical questions? Happy to work around your schedule.</p>
+                            <p>Thanks!</p>
+                        </div>
+                    </div>
+                    
+                    <div class="tone-controls" id="toneControls">
+                        <div style="font-weight: 500; margin-bottom: 12px; font-size: 14px;">Fine-tune tone:</div>
+                        
+                        <div class="tone-categories">
+                            <div class="tone-category" data-tone="formal">
+                                <div style="margin-bottom: 4px;">📄</div>
+                                <div>Formal</div>
+                            </div>
+                            <div class="tone-category active" data-tone="professional">
+                                <div style="margin-bottom: 4px;">💼</div>
+                                <div>Professional</div>
+                            </div>
+                            <div class="tone-category" data-tone="friendly">
+                                <div style="margin-bottom: 4px;">😊</div>
+                                <div>Friendly</div>
+                            </div>
+                            <div class="tone-category" data-tone="casual">
+                                <div style="margin-bottom: 4px;">👋</div>
+                                <div>Casual</div>
+                            </div>
+                        </div>
+                        
+                        <div style="margin: 12px 0;">
+                            <div style="display: flex; justify-content: space-between; font-size: 11px; color: #5f6368; margin-bottom: 8px;">
+                                <span>More Direct</span>
+                                <span>More Warm</span>
+                            </div>
+                            <div class="tone-slider" id="toneSlider">
+                                <div class="tone-thumb" id="toneThumb"></div>
+                            </div>
+                        </div>
+                        
+                        <div style="font-size: 12px; color: #5f6368; text-align: center; margin-top: 8px;" id="currentToneLabel">
+                            Current: Professional-Friendly
+                        </div>
+                    </div>
+                    
+                    <div class="action-buttons" id="actionButtons">
+                        <button class="send-button" id="sendButton">Send</button>
+                        <button class="regenerate-button" id="regenerateButton">Regenerate</button>
+                    </div>
+                    
+                    <div class="success-message" id="successMessage">
+                        ✅ Email sent successfully! TalkLikeMe saved you ~3 minutes of writing time.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
